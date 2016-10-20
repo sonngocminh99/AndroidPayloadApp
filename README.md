@@ -37,7 +37,7 @@
  * 認証に必要なプッシュ通知のAPIキーおよびSenderIDは手順にて説明します。
 
 ## 手順
-### 0.プッシュ通知機能使うための準備
+### 0.プッシュ通知機能を使うための準備
 
 ニフティクラウド mobile backendと連携させるためのAPIキーを取得する必要があります。 以下のドキュメントを参考に、FCMプロジェクトの作成とAPIキーの取得を行ってください。
 
@@ -58,7 +58,7 @@ __[mobile backendとFCMの連携に必要な設定](http://mb.cloud.nifty.com/do
 
 * アプリ設定開いてプッシュ通知の設定をします
    * 「プッシュ通知の許可」で「許可する」選択、「保存する」をクリックします
-   * 「Androidプッシュ通知」の「APIキー」には、FCMでプロジェクト作成時に発行された「Sender ID」を記入し、「保存する」をクリックします
+   * 「Androidプッシュ通知」の「APIキー」には、FCMでプロジェクト作成時に発行された「サーバーキー」を記入し、「保存する」をクリックします
 
 ![画像6](/readme-img/mBassPushEnv.png)
 
@@ -161,7 +161,6 @@ __[mobile backendとFCMの連携に必要な設定](http://mb.cloud.nifty.com/do
 
 ```java
 //**************** APIキーの設定とSDKの初期化 **********************
-//**************** APIキーの設定とSDKの初期化 **********************
  NCMB.initialize(this, "YOUR_APPLICATION_KEY", "YOUR_CLIENT_KEY");
  final NCMBInstallation installation = NCMBInstallation.getCurrentInstallation();
 
@@ -214,7 +213,7 @@ public class CustomGcmListenerService extends NCMBGcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        //ペイロードデータの取得x
+        //ペイロードデータの取得
         if (data.containsKey("com.nifty.Data")) {
             try {
                 JSONObject json = new JSONObject(data.getString("com.nifty.Data"));
