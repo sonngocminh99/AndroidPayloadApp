@@ -37,7 +37,7 @@
  * 認証に必要なプッシュ通知のAPIキーおよびSenderIDは手順にて説明します。
 
 ## 手順
-### 0.プッシュ通知機能使うための準備
+### 0.プッシュ通知機能を使うための準備
 
 ニフティクラウド mobile backendと連携させるためのAPIキーを取得する必要があります。 以下のドキュメントを参考に、FCMプロジェクトの作成とAPIキーの取得を行ってください。
 
@@ -58,7 +58,7 @@ __[mobile backendとFCMの連携に必要な設定](http://mb.cloud.nifty.com/do
 
 * アプリ設定開いてプッシュ通知の設定をします
    * 「プッシュ通知の許可」で「許可する」選択、「保存する」をクリックします
-   * 「Androidプッシュ通知」の「APIキー」には、FCMでプロジェクト作成時に発行された「Sender ID」を記入し、「保存する」をクリックします
+   * 「Androidプッシュ通知」の「APIキー」には、FCMでプロジェクト作成時に発行された「サーバーキー」を記入し、「保存する」をクリックします
 
 ![画像6](/readme-img/mBassPushEnv.png)
 
@@ -145,7 +145,7 @@ __[mobile backendとFCMの連携に必要な設定](http://mb.cloud.nifty.com/do
 }
 ```
 
-* Androidのプッシュ通知の仕様により、ダッシュボードで「JSON」に入力したデータはそのまま `com.nifty.Data` 追加されて設定されます
+* Androidのプッシュ通知の仕様により、ダッシュボードで「JSON」に入力したデータはそのまま `com.nifty.Data` に追加されて設定されます
 * ダッシュボードで「URL」に設定した場合、　`com.nifty.RichUrl`として設定されます
 * 他にはプッシュ通知のIDは `com.nifty.PushId` に設定されます
 
@@ -157,10 +157,9 @@ __[mobile backendとFCMの連携に必要な設定](http://mb.cloud.nifty.com/do
 #### ロジック
  * `activity_main.xml`でデザインを作成し、`MainActivity.java`にロジックを書いています
  * installationクラス(端末情報)が保存される処理は以下のように記述されます
- * アプリが再インストールされる時に、端末のデバイストークンが重複場合の処理も考慮した実装となっています。
+ * アプリを再インストールした時に、端末のデバイストークンが重複した場合の処理を考慮した実装となっています。
 
 ```java
-//**************** APIキーの設定とSDKの初期化 **********************
 //**************** APIキーの設定とSDKの初期化 **********************
  NCMB.initialize(this, "YOUR_APPLICATION_KEY", "YOUR_CLIENT_KEY");
  final NCMBInstallation installation = NCMBInstallation.getCurrentInstallation();
@@ -190,7 +189,7 @@ __[mobile backendとFCMの連携に必要な設定](http://mb.cloud.nifty.com/do
  });
 ```
 
-* ペイロード実装するために、カスタムサービスを実装する必要があります。詳細の実装は[こちら](http://mb.cloud.nifty.com/doc/current/push/basic_usage_android.html#%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5%E9%80%9A%E7%9F%A5%E3%81%A7JSON%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)に参照ください。
+* ペイロードを実装するために、カスタムサービスを実装する必要があります。詳細の実装は[こちら](http://mb.cloud.nifty.com/doc/current/push/basic_usage_android.html#%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5%E9%80%9A%E7%9F%A5%E3%81%A7JSON%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)に参照ください。
 
 * `AndroidManifest.xml`のサービスを定義している部分を書き換えます。
 
@@ -214,7 +213,7 @@ public class CustomGcmListenerService extends NCMBGcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        //ペイロードデータの取得x
+        //ペイロードデータの取得
         if (data.containsKey("com.nifty.Data")) {
             try {
                 JSONObject json = new JSONObject(data.getString("com.nifty.Data"));

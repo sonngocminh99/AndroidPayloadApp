@@ -23,7 +23,7 @@ public class CustomGcmListenerService extends NCMBGcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        //ペイロードデータの取得x
+        //ペイロードデータの取得
         if (data.containsKey("com.nifty.Data")) {
             try {
                 JSONObject json = new JSONObject(data.getString("com.nifty.Data"));
