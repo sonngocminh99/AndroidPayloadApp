@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //**************** APIキーの設定とSDKの初期化 **********************
-        NCMB.initialize(this, "YOUR_APPLICATION_KEY", "YOUR_CLIENT_KEY");
+        NCMB.initialize(this.getApplicationContext(), "YOUR_APPLICATION_KEY", "YOUR_CLIENT_KEY");
         final NCMBInstallation installation = NCMBInstallation.getCurrentInstallation();
 
         //GCMからRegistrationIdを取得しinstallationに設定する
