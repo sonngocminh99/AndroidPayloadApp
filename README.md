@@ -142,15 +142,15 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 
 ```JSON
 {
-    "com.nifty.PushId" : "********",
-    "com.nifty.Data" : "{key : value}",
-    "com.nifty.RichUrl" : "https://mbaas.nifcloud.com/"
+    "com.nifcloud.mbaas.PushId" : "********",
+    "com.nifcloud.mbaas.Data" : "{key : value}",
+    "com.nifcloud.mbaas.RichUrl" : "https://mbaas.nifcloud.com/"
 }
 ```
 
-* Androidのプッシュ通知の仕様により、ダッシュボードで「JSON」に入力したデータはそのまま `com.nifty.Data` に追加されて設定されます
-* ダッシュボードで「URL」に設定した場合、　`com.nifty.RichUrl`として設定されます
-* 他にはプッシュ通知のIDは `com.nifty.PushId` に設定されます
+* Androidのプッシュ通知の仕様により、ダッシュボードで「JSON」に入力したデータはそのまま `com.nifcloud.mbaas.Data` に追加されて設定されます
+* ダッシュボードで「URL」に設定した場合、　`com.nifcloud.mbaas.RichUrl`として設定されます
+* 他にはプッシュ通知のIDは `com.nifcloud.mbaas.PushId` に設定されます
 
 ### サンプルプロジェクトに実装済みの内容
 
@@ -164,32 +164,7 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 
 ```java
 //**************** APIキーの設定とSDKの初期化 **********************
- NCMB.initialize(this, "YOUR_APPLICATION_KEY", "YOUR_CLIENT_KEY");
- final NCMBInstallation installation = NCMBInstallation.getCurrentInstallation();
-
- //GCMからRegistrationIdを取得しinstallationに設定する
- installation.getRegistrationIdInBackground("ANDROID_SENDER_ID", new DoneCallback() {
-     @Override
-     public void done(NCMBException e) {
-         if (e == null) {
-             installation.saveInBackground(new DoneCallback() {
-                 @Override
-                 public void done(NCMBException e) {
-                     if (e == null) {
-                         //保存成功
-                     } else if (NCMBException.DUPLICATE_VALUE.equals(e.getCode())) {
-                         //保存失敗 : registrationID重複
-                         updateInstallation(installation);
-                     } else {
-                         //保存失敗 : その他
-                     }
-                 }
-             });
-         } else {
-             //ID取得失敗
-         }
-     }
- });
+NCMB.initialize(this.getApplicationContext(), "YOUR_APPLICATION_KEY", "YOUR_CLIENT_KEY");
 ```
 
 * ペイロードを実装するために、カスタムサービスを実装する必要があります。詳細の実装は[こちら](https://mbaas.nifcloud.com/doc/current/push/basic_usage_android.html#%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5%E9%80%9A%E7%9F%A5%E3%81%A7JSON%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)に参照ください。
@@ -198,10 +173,10 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 
 ```xml
 <service
-    android:name="com.nifty.cloud.mb.core.CustomGcmListenerService"
+    android:name="mbaas.com.nifcloud.androidpayloadapp.CustomGcmListenerService"
     android:exported="false">
     <intent-filter>
-        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+        <action android:name="com.google.firebase.MESSAGING_EVENT"/>
     </intent-filter>
 </service>
 ```
@@ -209,31 +184,33 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 * `CustomGcmListenerService.java` を作成します。以下のように実装されます。
 
 ```java
-public class CustomGcmListenerService extends NCMBGcmListenerService {
+public class CustomGcmListenerService extends NCMBFirebaseMessagingService {
 
     private static final String TAG = "GcmService";
     private static final int REQUEST_RESULT = 0;
 
     @Override
-    public void onMessageReceived(String from, Bundle data) {
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        Bundle data = getBundleFromRemoteMessage(remoteMessage);
         //ペイロードデータの取得
-        if (data.containsKey("com.nifty.Data")) {
+        if (data.containsKey("com.nifcloud.mbaas.Data")) {
             try {
-                JSONObject json = new JSONObject(data.getString("com.nifty.Data"));
+                JSONObject json = new JSONObject(data.getString("com.nifcloud.mbaas.Data"));
             } catch (JSONException e) {
                 //エラー処理
             }
-        } else if (data.containsKey("com.nifty.PushId")) {
-            String pushid = data.getString("com.nifty.PushId");
+        } else if (data.containsKey("com.nifcloud.mbaas.PushId")) {
+            String pushid = data.getString("com.nifcloud.mbaas.PushId");
             Log.d(TAG, pushid);
-        } else if (data.containsKey("com.nifty.RichUrl")) {
-            String url = data.getString("com.nifty.RichUrl");
+        } else if (data.containsKey("com.nifcloud.mbaas.RichUrl")) {
+            String url = data.getString("com.nifcloud.mbaas.RichUrl");
             Log.d(TAG, url);
         }
 
         //デフォルトの通知
-        super.onMessageReceived(from, data);
+        super.onMessageReceived(remoteMessage);
     }
+
 }
 
 ```
@@ -248,18 +225,18 @@ public void onResume() {
 
         //プッシュ通知IDを表示
         _pushId = (TextView) findViewById(R.id.txtPushid);
-        String pushid = intent.getStringExtra("com.nifty.PushId");
+        String pushid = intent.getStringExtra("com.nifcloud.mbaas.PushId");
         _pushId.setText(pushid);
 
         //RichURLを表示
         _richurl = (TextView) findViewById(R.id.txtRichurl);
-        String richurl = intent.getStringExtra("com.nifty.RichUrl");
+        String richurl = intent.getStringExtra("com.nifcloud.mbaas.RichUrl");
         _richurl.setText(richurl);
 
         //プッシュ通知のペイロードを表示
-        if (intent.getStringExtra("com.nifty.Data") != null) {
+        if (intent.getStringExtra("com.nifcloud.mbaas.Data") != null) {
             try {
-                JSONObject json = new JSONObject(intent.getStringExtra("com.nifty.Data"));
+                JSONObject json = new JSONObject(intent.getStringExtra("com.nifcloud.mbaas.Data"));
                 if (json != null) {
                     ListView lv = (ListView) findViewById(R.id.lsJson);
                     lv.setAdapter(new ListAdapter(this, json));
@@ -268,7 +245,7 @@ public void onResume() {
                 //エラー処理
             }
         }
-        intent.removeExtra("com.nifty.RichUrl");
+        intent.removeExtra("com.nifcloud.mbaas.RichUrl");
     }
 ```
 
