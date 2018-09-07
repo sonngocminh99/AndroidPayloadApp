@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.nifcloud.mbaas.core.NCMB;
 import com.nifcloud.mbaas.core.NCMBInstallation;
 
