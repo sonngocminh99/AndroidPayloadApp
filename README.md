@@ -18,7 +18,7 @@
 
 ## 動作環境
 
-* Android Studio ver. 2.1.2
+* Android Studio ver. 3.1
 * Android 6.0
  * このサンプルアプリは、プッシュ通知を受信する必要があるため実機ビルドが必要です
 
