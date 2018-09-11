@@ -181,12 +181,12 @@ NCMB.initialize(this.getApplicationContext(), "YOUR_APPLICATION_KEY", "YOUR_CLIE
 </service>
 ```
 
-* `CustomGcmListenerService.java` を作成します。以下のように実装されます。
+* `CustomFcmListenerService.java` を作成します。以下のように実装されます。
 
 ```java
-public class CustomGcmListenerService extends NCMBFirebaseMessagingService {
+public class CustomFcmListenerService extends NCMBFirebaseMessagingService {
 
-    private static final String TAG = "GcmService";
+    private static final String TAG = "FcmService";
     private static final int REQUEST_RESULT = 0;
 
     @Override

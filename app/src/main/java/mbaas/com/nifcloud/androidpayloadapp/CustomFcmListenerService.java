@@ -10,9 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class CustomGcmListenerService extends NCMBFirebaseMessagingService {
+public class CustomFcmListenerService extends NCMBFirebaseMessagingService {
 
-    private static final String TAG = "GcmService";
+    private static final String TAG = "FcmService";
     private static final int REQUEST_RESULT = 0;
 
     @Override

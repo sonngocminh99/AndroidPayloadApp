@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="https://console.mbaas.nifcloud.com/"
+            android:text="richUrl"
             android:id="@+id/txtRichurl" />
 
         <TextView
