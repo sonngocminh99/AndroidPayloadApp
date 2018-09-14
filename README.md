@@ -58,7 +58,7 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 
 * アプリ設定開いてプッシュ通知の設定をします
    * 「プッシュ通知の許可」で「許可する」選択、「保存する」をクリックします
-   * 「Androidプッシュ通知」の「APIキー」には、FCMでプロジェクト作成時に発行された「サーバーキー」を記入し、「保存する」をクリックします
+   * 「FCMプッシュ通知」の「FCMプッシュ通知設定ファイルの選択」というボタンをクリックして、 FirebaseからダウンロードしたFirebaseの秘密鍵jsonファイルをアップロードします
 
 ![画像6](/readme-img/mBassPushEnv.png)
 
@@ -87,14 +87,11 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 * それぞれ`YOUR_APPLICATION_KEY`と`YOUR_CLIENT_KEY`の部分を書き換えます
  * このとき、ダブルクォーテーション（`"`）を消さないように注意してください！
 
-### 5. AndroidのSender IDキーの設定
-
-* `MainActivity.java`を編集します
-
-![画像10](/readme-img/FCMAPIkey.png)
-
-* `ANDROID_SENDER_ID`の部分を、FCMでプロジェクト作成時に発行された「送信者ID (Sender ID)」に書き換えます
- * このとき、ダブルクォーテーション（`"`）を消さないように注意してください！
+### 5. google-service.jsonの配置
+ 
+ * Firebaseから発行したgoogle-service.jsonをアプリに配置します
+ 
+ ![画像10](/readme-img/PlaceGoogleServiceFile.png)
 
 ### 6. 動作確認
 
