@@ -170,7 +170,7 @@ NCMB.initialize(this.getApplicationContext(), "YOUR_APPLICATION_KEY", "YOUR_CLIE
 
 ```xml
 <service
-    android:name="mbaas.com.nifcloud.androidpayloadapp.CustomGcmListenerService"
+    android:name="mbaas.com.nifcloud.androidpayloadapp.CustomFcmListenerService"
     android:exported="false">
     <intent-filter>
         <action android:name="com.google.firebase.MESSAGING_EVENT"/>
