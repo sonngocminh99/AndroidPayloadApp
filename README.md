@@ -1,5 +1,5 @@
 # 【Android】プッシュ通知からデータを取得してみよう！（ペイロード）
-*2016/10/20作成*
+*2016/10/20作成 （2018/10/25更新）*
 
 ![画像1](/readme-img/001.png)
 
@@ -17,11 +17,12 @@
 ![画像2](/readme-img/002.png)
 
 ## 動作環境
-
 * Android Studio ver. 3.1
 * Android 6.0
- * このサンプルアプリは、プッシュ通知を受信する必要があるため実機ビルドが必要です
+* Android SDK v3
+   * SDK v2系だと動作しないので注意
 
+※このサンプルアプリは、プッシュ通知を受信する必要があるため実機ビルドが必要です<br>
 ※上記内容で動作確認をしています
 
 ## プッシュ通知の仕組み
@@ -31,19 +32,29 @@
 
  ![画像a1](/readme-img/a001.png)
 
- ※ FCMはGCM(Google Cloud Messaging)の新バージョンです。既にGCMにてプロジェクトの作成・GCMの有効化設定を終えている場合は、継続してご利用いただくことが可能です。新規でGCMをご利用いただくことはできませんので、あらかじめご了承ください。
-
-* 上図のように、アプリ（Android Studio）・サーバー（ニフクラ mobile backend）・通知サービス（FCM/GCM）の間でやり取りを行うため、認証が必要になります
- * 認証に必要なプッシュ通知のAPIキーおよびSenderIDは手順にて説明します。
+* 上図のように、アプリ（Android Studio）・サーバー（ニフクラ mobile backend）・通知サービス（FCM）の間でやり取りを行うため、認証が必要になります
+ * 認証に必要なプッシュ通知設定ファイルについては、手順にて説明します。
 
 ## 手順
 ### 0.プッシュ通知機能を使うための準備
 
-ニフクラ  mobile backendと連携させるためのAPIキーを取得する必要があります。 以下のドキュメントを参考に、FCMプロジェクトの作成とAPIキーの取得を行ってください。
+ニフクラ mobile backend とFCM を連携させる場合、Firebaseプロジェクトを作成していただいたあと、下記設定を行っていただく必要があります。
+ 
+ * APIキーの取得※2019年3月以降廃止
+ * google-services.jsonをアプリに配置
+ * Firebaseプロジェクトの秘密鍵をmobile backendにアップロード
+ 
+ 以下のドキュメントを参考に、設定を行ってください。
+ 
+ ▼Firebaseプロジェクトの作成とAPIキーの取得▼  
+  https://mbaas.nifcloud.com/doc/current/tutorial/push_setup_android.html  
+  ※2019年3月までの間は、Firebaseプロジェクトのサーバーキーもmobile backendにて設定していただく必要があります。  
+ 
+ ▼ google-services.jsonとFirebase秘密鍵の設定方法について▼  
+ https://mbaas.nifcloud.com/doc/current/common/push_setup_fcm_json.html  
+ ※ [手順5.google-services.jsonの配置](https://github.com/NIFCloud-mbaas/AndroidSegmentPushApp#5-google-servicesjsonの配置) もご参考ください。  
 
-__[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/doc/current/tutorial/push_setup_android.html)__
-
-### 1. [ニフクラ mobile backend](https://mbaas.nifcloud.com/)の準備
+### 1. [ニフクラ mobile backend](https://mbaas.nifcloud.com/signup.htm)の準備
 
 * 上記リンクから会員登録（無料）をします
 * 登録後、ログインをすると下図のように「アプリの新規作成」画面が出ますので、アプリを作成します
@@ -57,7 +68,8 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 
 
 * アプリ設定開いてプッシュ通知の設定をします
-   * 「プッシュ通知の許可」で「許可する」選択、「保存する」をクリックします
+   * 「プッシュ通知の許可」で「許可する」選択、「保存する」をクリックします  
+   * 「Androidプッシュ通知」の「APIキー」には、Firebaseでプロジェクト作成時に発行された「サーバーキー」を記入し、「保存する」をクリックします ※こちらの手順は2019年3月以降廃止予定です  
    * 「FCMプッシュ通知」の「FCMプッシュ通知設定ファイルの選択」というボタンをクリックして、 FirebaseからダウンロードしたFirebaseの秘密鍵jsonファイルをアップロードします
 
 ![画像6](/readme-img/mBassPushEnv.png)
@@ -87,9 +99,11 @@ __[mobile backendとFCMの連携に必要な設定](https://mbaas.nifcloud.com/d
 * それぞれ`YOUR_APPLICATION_KEY`と`YOUR_CLIENT_KEY`の部分を書き換えます
  * このとき、ダブルクォーテーション（`"`）を消さないように注意してください！
 
-### 5. google-service.jsonの配置
+### 5. google-services.jsonの配置
  
- * Firebaseから発行したgoogle-service.jsonをアプリに配置します
+ * Firebaseから発行したgoogle-services.jsonをアプリに配置します  
+   * なお、発行時にAndroidパッケージ名は"mbaas.com.nifcloud.androidpayloadapp"としてください  
+   * パッケージ名を別名にした場合はアプリ配置後、google-services.jsonファイル内の"package_name"を"mbaas.com.nifcloud.androidpayloadapp"に変更してください  
  
  ![画像10](/readme-img/PlaceGoogleServiceFile.png)
 
