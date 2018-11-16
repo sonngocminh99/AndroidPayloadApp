@@ -1,4 +1,4 @@
-package mbaas.com.nifty.androidpayloadapp;
+package mbaas.com.nifcloud.androidpayloadapp;
 
 import org.junit.Test;
 

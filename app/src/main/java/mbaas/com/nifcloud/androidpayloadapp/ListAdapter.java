@@ -1,7 +1,6 @@
-package mbaas.com.nifty.androidpayloadapp;
+package mbaas.com.nifcloud.androidpayloadapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
