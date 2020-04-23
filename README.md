@@ -100,6 +100,7 @@
 ### 5. google-services.jsonの配置
  
  * Firebaseから発行したgoogle-services.jsonをアプリに配置します  
+   * AndroidSegmentPushApp/app 配下に配置してください。それ以外だとエラーになります
    * なお、発行時にAndroidパッケージ名は"mbaas.com.nifcloud.androidpayloadapp"としてください  
    * パッケージ名を別名にした場合はアプリ配置後、google-services.jsonファイル内の"package_name"を"mbaas.com.nifcloud.androidpayloadapp"に変更してください  
  
