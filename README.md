@@ -1,5 +1,5 @@
 # 【Android】プッシュ通知からデータを取得してみよう！（ペイロード）
-*2016/10/20作成 （2018/10/25更新）*
+*2016/10/20作成 （2019/06/11更新）*
 
 ![画像1](/readme-img/001.png)
 
@@ -17,12 +17,10 @@
 ![画像2](/readme-img/002.png)
 
 ## 動作環境
-* Android Studio ver. 3.1
-* Android 6.0
-* Android SDK v3
-   * SDK v2系だと動作しないので注意
+* MacOS Mojave v10.14.6 (18G103)
+* Android studio: 3.4.1
+* Simulator: Pixel 2 Android OS Version 10
 
-※このサンプルアプリは、プッシュ通知を受信する必要があるため実機ビルドが必要です<br>
 ※上記内容で動作確認をしています
 
 ## プッシュ通知の仕組み
@@ -52,7 +50,7 @@
  
  ▼ google-services.jsonとFirebase秘密鍵の設定方法について▼  
  https://mbaas.nifcloud.com/doc/current/common/push_setup_fcm_json.html  
- ※ [手順5.google-services.jsonの配置](https://github.com/NIFCloud-mbaas/AndroidSegmentPushApp#5-google-servicesjsonの配置) もご参考ください。  
+ ※ [手順5.google-services.jsonの配置](https://github.com/NIFCLOUD-mbaas/AndroidSegmentPushApp#5-google-servicesjsonの配置) もご参考ください。  
 
 ### 1. [ニフクラ mobile backend](https://mbaas.nifcloud.com/signup.htm)の準備
 
@@ -74,9 +72,9 @@
 
 ![画像6](/readme-img/mBassPushEnv.png)
 
-## 2. [GitHub](https://github.com/NIFCloud-mbaas/AndroidPayloadApp)からサンプルプロジェクトのダウンロード
+## 2. [GitHub](https://github.com/NIFCLOUD-mbaas/AndroidPayloadApp)からサンプルプロジェクトのダウンロード
 
-* プロジェクトの[Githubページ](https://github.com/NIFCloud-mbaas/AndroidPayloadApp)から「Clone or download」＞「Download ZIP」をクリックします
+* プロジェクトの[Githubページ](https://github.com/NIFCLOUD-mbaas/AndroidPayloadApp)から「Clone or download」＞「Download ZIP」をクリックします
 * プロジェクトを解凍します
 
 ### 3. AndroidStudioでアプリを起動
@@ -102,6 +100,7 @@
 ### 5. google-services.jsonの配置
  
  * Firebaseから発行したgoogle-services.jsonをアプリに配置します  
+   * AndroidPayloadApp/app 配下に配置してください。それ以外だとエラーになります
    * なお、発行時にAndroidパッケージ名は"mbaas.com.nifcloud.androidpayloadapp"としてください  
    * パッケージ名を別名にした場合はアプリ配置後、google-services.jsonファイル内の"package_name"を"mbaas.com.nifcloud.androidpayloadapp"に変更してください  
  
