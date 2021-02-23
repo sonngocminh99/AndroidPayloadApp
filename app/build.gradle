@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "mbaas.com.nifcloud.androidpayloadapp"
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion 16
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -16,17 +17,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        animationsDisabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+
+    // Core library
+    androidTestImplementation 'androidx.test:core:1.2.0'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    // Espresso dependencies
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:27.0.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.code.gson:gson:2.3.1'
-    implementation 'com.google.firebase:firebase-messaging:17.1.0'
-    implementation 'com.google.android.gms:play-services-base:15.0.1'
-    implementation files('libs/NCMB.jar')
+    implementation 'com.google.firebase:firebase-messaging:20.2.3'
+    implementation 'com.google.android.gms:play-services-base:17.3.0'
+    api files('libs/NCMB.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'
